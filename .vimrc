@@ -282,12 +282,12 @@ function! UseSkeletons(num)
     if has("autocmd") && s:use_spooky_skeletons == 1
         augroup Skeletons
             autocmd!
-            autocmd BufNewFile *.cpp execute ':0r ~/.vim/skeleton/template.cpp'
-            autocmd BufNewFile *.c execute ':0r ~/.vim/skeleton/template.c'
-            autocmd BufNewFile *.h execute ':0r ~/.vim/skeleton/template.h'
-            autocmd BufNewFile *.html execute ':0r ~/.vim/skeleton/template.html'
-            autocmd BufNewFile *.py execute ':0r ~/.vim/skeleton/template.py'
-            autocmd BufNewFile *.sh execute ':0r ~/.vim/skeleton/template.sh'
+            autocmd BufNewFile *.cpp execute ':0r ~/.vim/skeleton/skeleton.cpp'
+            autocmd BufNewFile *.c execute ':0r ~/.vim/skeleton/skeleton.c'
+            autocmd BufNewFile *.h execute ':0r ~/.vim/skeleton/skeleton.h'
+            autocmd BufNewFile *.html execute ':0r ~/.vim/skeleton/skeleton.html'
+            autocmd BufNewFile *.py execute ':0r ~/.vim/skeleton/skeleton.py'
+            autocmd BufNewFile *.sh execute ':0r ~/.vim/skeleton/skeleton.sh'
             autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
         augroup END
     endif
