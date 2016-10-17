@@ -244,9 +244,7 @@ colorscheme bubblegum-256-dark
 highlight LineNr ctermfg=white
 
 " if we have support for 256 colors, use it
-if match($TERMCAP, 'Co#256:') == 0 || match($TERMCAP, ':Co#256:') > 0
-    set t_Co=256
-endif
+set t_Co=256
 
 " highlight current line
 set cursorline
@@ -317,9 +315,6 @@ function! UseMappings(num)
 
         " move to previous 'tab'
         nnoremap <Leader>p :bprevious<CR>
-
-        " Close the current buffer and move to the previous one
-        nnoremap <Leader>q :bd<CR>
 
         " Close the current buffer and move to the previous one
         nnoremap <Leader>qq :bp <BAR> bd #<CR>
