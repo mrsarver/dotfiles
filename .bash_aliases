@@ -42,6 +42,9 @@ alias vi='vim'
 # always make the directory
 alias mkdir='mkdir -p'
 
+# run nemo without starting a desktop
+alias nemo='nemo --no-desktop'
+
 # lol
 # alias killme=':(){ :|: & }:;'
 

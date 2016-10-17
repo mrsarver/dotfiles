@@ -176,7 +176,7 @@ bar {
 for_window [class="^.*"] border pixel 4
 
 exec --no-startup-id xrandr --output HDMI-1 --auto --primary --mode 1920x1080 --output DVI-I-1 --mode 1920x1080 --right-of HDMI-1
-exec --no-startup-id feh --bg-scale /home/mars/Pictures/halo_reach.jpg
+exec --no-startup-id feh --bg-center /home/mars/Pictures/iron_lords.jpg
 exec --no-startup-id gsettings set org.gnome.desktop.background show-desktop-icons false
 #exec --no-startup-id conky -c /home/mars/.config/conky/.conkyrc
 

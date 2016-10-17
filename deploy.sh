@@ -15,7 +15,7 @@ if [[ $platform == 'osx' ]]; then
     alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
 fi
 
-for path in .vimrc .vim .bash_aliases .bash_profile .bashrc; do
+for path in .vimrc .vim .bash_aliases .bash_profile .bashrc .gitconfig; do
     echo $path
     if [ ! -h ~/$path ]; then
         ln -vis ~/.dotfiles/$path ~/$path
