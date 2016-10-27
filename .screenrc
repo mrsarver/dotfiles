@@ -14,11 +14,9 @@ defscrollback 5000
 # use system shell
 shell -$SHELL
 
-
-
 # Configure status bar at the bottom of the terminal
 hardstatus alwayslastline
-hardstatus string "%{= kb}[ %=%{w}%?%-Lw%?%{C}(%{W}%n*%f %t%?(%u)%?%{C})%{w}%?%+Lw%?%?%= %{b}][%{C} %Y.%m.%d %{W}%0c %{b}]"
+hardstatus string "%{= km}[ %=%{w}%?%-Lw%?%{C}(%{W}%n*%f %t%?(%u)%?%{C})%{w}%?%+Lw%?%?%= %{m}][%{M} %D, %d %M %Y %{W}%0C:%s %A %{m}]"
 
 #==============================================================================#
 # SCREEN KEYBINDINGS                                                           #
@@ -58,3 +56,9 @@ termcapinfo xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 # screen -t monkey ssh monkey
 # screen -t mail 8 mutt
 # screen -t daemon 9 tail -f /var/log/daemon.log
+
+screen -t terminal 0 bash
+screen -t vim 1 vim
+screen -t python 2 python
+screen -t irc 3 irssi
+select 0

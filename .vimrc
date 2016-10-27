@@ -9,7 +9,7 @@
 " +----------------------------------------------------------------------------+
 let s:vimrc_reload = 1          "auto-reload the vimrc
 let s:use_mappings = 1          "use my mappings
-let s:use_col_hilite = 1        "highlight columns after 80
+let s:use_col_hilite = 0        "highlight columns after 80
 let s:use_spell_checking = 0    "spell checking for those who desire it
 let s:use_spooky_skeletons = 1  "create files from skeleton
 
@@ -30,6 +30,7 @@ Plugin 'vim-airline/vim-airline'            " buffer madness fix
 Plugin 'vim-airline/vim-airline-themes'     " airline themes
 Plugin 'Valloric/YouCompleteMe'             " YouCompleteMe
 Plugin 'Yggdroot/indentLine'                " Indent Lines
+Plugin 'rdnetto/YCM-Generator'              " YouCompleteMe config generator
 
 call vundle#end()
 

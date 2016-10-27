@@ -27,7 +27,7 @@ alias g='git status'
 alias gf='git fetch'
 alias gpll='git pull'
 alias gpsh='git push'
-alias gc='git commit'
+alias gc='git commit -S'
 
 # automatically use color for less
 alias less='less -R'
@@ -51,6 +51,13 @@ alias nemo='nemo --no-desktop'
 #==============================================================================#
 # Navigation                                                                   #
 #==============================================================================#
+alias btsb='cd ~/dev/cpp/bloodtides/src/sandbox'
+alias btc='cd ~/dev/cpp/bloodtides/src/client'
+alias bt='cd ~/dev/cpp/bloodtides'
+alias smm='cd ~/dev/cpp/sandboxmm'
+alias doom='cd ~/dev/cpp/DOOM-3'
+alias crown='cd ~/dev/cpp/crown/src'
+
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
