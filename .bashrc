@@ -114,4 +114,4 @@ if ! shopt -oq posix; then
 fi
 
 export CLICOLOR=1;
-export LSCOLORS=exfxcxdxbxegedabagacad;
+export LSCOLORS=GxfxexdxCxegedabagacad;
