@@ -2,6 +2,9 @@
 # SCREEN SETTINGS                                                              #
 #==============================================================================#
 
+# make screen work nice with vim
+altscreen on
+
 # disable startup message
 startup_message off
 
