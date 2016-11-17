@@ -27,7 +27,7 @@ alias g='git status'
 alias gf='git fetch'
 alias gpll='git pull'
 alias gpsh='git push'
-alias gc='git commit -S'
+alias gc='git commit'
 
 # automatically use color for less
 alias less='less -R'
@@ -50,6 +50,7 @@ alias nemo='nemo --no-desktop'
 
 # connect to droplet
 alias luna='ssh luna@159.203.65.39'
+alias saturn='ssh saturn@98.250.17.195 -p 65389'
 
 #==============================================================================#
 # Navigation                                                                   #
