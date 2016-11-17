@@ -24,13 +24,13 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'               " Vundle Plugin
 Plugin 'scrooloose/nerdtree'                " filesystem explorer
-Plugin 'tpope/vim-fugitive'                 " git wrapper
 Plugin 'scrooloose/nerdcommenter'           " yay comments
 Plugin 'vim-airline/vim-airline'            " buffer madness fix
 Plugin 'vim-airline/vim-airline-themes'     " airline themes
 Plugin 'Valloric/YouCompleteMe'             " YouCompleteMe
 Plugin 'Yggdroot/indentLine'                " Indent Lines
 Plugin 'rdnetto/YCM-Generator'              " YouCompleteMe config generator
+Plugin 'majutsushi/tagbar'                  " show tags in file
 
 call vundle#end()
 
@@ -212,7 +212,7 @@ set mat=1
 set wildmenu
 
 " vim file tab completion
-set wildmode=longest:list,full
+set wildmode=longest:full,full
 
 " ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -247,8 +247,14 @@ highlight LineNr ctermfg=white
 " if we have support for 256 colors, use it
 set t_Co=256
 
-" highlight current line
-set cursorline
+" dont highlight current line
+set nocursorline
+
+" dont highlight current column
+set nocursorcolumn
+
+" only redraw when needed
+set lazyredraw
 
 " +----------------------------------------------------------------------------+
 " | TABBING																	   |
@@ -325,6 +331,9 @@ function! UseMappings(num)
 
         " quickly open and edit bashrc
         nnoremap <silent> <Leader>brc :enew<CR>:e ~/.bashrc<CR>
+
+        " quickly open Tagbar
+        nnoremap <silent> <C-T> :TagbarToggle<CR>
     endif
 endfunction
 
