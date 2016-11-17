@@ -51,6 +51,13 @@ alias nemo='nemo --no-desktop'
 #==============================================================================#
 # Navigation                                                                   #
 #==============================================================================#
+
+alias smm='cd ~/dev/cpp/sandboxmm/'
+alias bt='cd ~/dev/cpp/bloodtides'
+alias btc='cd ~/dev/cpp/bloodtides/src/client'
+alias btsb='cd ~/dev/cpp/bloodtides/src/sandbox'
+alias devcpp='cd ~/dev/cpp'
+
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
