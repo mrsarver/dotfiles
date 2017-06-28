@@ -52,7 +52,7 @@ alias nemo='nemo --no-desktop'
 # Navigation                                                                   #
 #==============================================================================#
 
-alias smm='cd ~/dev/cpp/sandboxmm/'
+alias smm='cd ~/dev/cpp/SandboxEngine'
 alias bt='cd ~/dev/cpp/bloodtides'
 alias btc='cd ~/dev/cpp/bloodtides/src/client'
 alias btsb='cd ~/dev/cpp/bloodtides/src/sandbox'
