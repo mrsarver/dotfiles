@@ -19,7 +19,7 @@ shell -$SHELL
 
 # Configure status bar at the bottom of the terminal
 hardstatus alwayslastline
-hardstatus string "%{= km}[ %=%{w}%?%-Lw%?%{C}(%{W}%n*%f %t%?(%u)%?%{C})%{w}%?%+Lw%?%?%= %{m}][%{M} %D, %d %M %Y %{W}%0C:%s %A %{m}]"
+hardstatus string "%{= km}[%{+b} %H %{-}][ %=%{w}%?%-Lw%?%{C}(%{W}%n*%f %t%?(%u)%?%{C})%{w}%?%+Lw%?%?%= %{m}][ %{G}Load: %l %{M}][%{M} %D, %d %M %Y %{+b W}%C:%s %A %{M}]"
 
 #==============================================================================#
 # SCREEN KEYBINDINGS                                                           #
@@ -29,6 +29,8 @@ hardstatus string "%{= km}[ %=%{w}%?%-Lw%?%{C}(%{W}%n*%f %t%?(%u)%?%{C})%{w}%?%+
 bind s split
 bind j focus down
 bind k focus up
+bind ',' prev
+bind '.' next
 
 # region resizing
 bind = resize =
@@ -42,6 +44,12 @@ bind - resize -1
 # allow bold colors
 attrcolor b ".I"
 
+# use xterm
+term xterm
+
+# use terminal scrolling
+termcapinfo xterm* ti@:te@
+
 # tell screen how to set colors. AB = background, AF=foreground
 termcapinfo xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 
@@ -49,19 +57,7 @@ termcapinfo xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 # STARTUP SCREENS                                                              #
 #==============================================================================#
 
-# Example of automatically running some programs in windows on screen startup.
-#
-#   The following will open top in the first window, an ssh session to monkey
-#   in the next window, and then open mutt and tail in windows 8 and 9
-#   respectively.
-#
-# screen top
-# screen -t monkey ssh monkey
-# screen -t mail 8 mutt
-# screen -t daemon 9 tail -f /var/log/daemon.log
-
+# startup screens
 screen -t terminal 0 bash
 screen -t vim 1 vim
-screen -t python 2 python
-screen -t irc 3 irssi
 select 0
