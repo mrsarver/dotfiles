@@ -51,6 +51,10 @@ alias nemo='nemo --no-desktop'
 # connect to droplet
 alias luna='ssh luna@159.203.65.39'
 alias saturn='ssh saturn@98.250.17.195 -p 65389'
+alias hermes='ssh hermes@138.197.31.54 -p 65389'
+
+alias rfw='/scripts/run-fusion-web.sh -d'
+alias oracle='/scripts/run-oracle.sh'
 
 #==============================================================================#
 # Navigation                                                                   #
