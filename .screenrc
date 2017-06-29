@@ -44,9 +44,6 @@ bind - resize -1
 # allow bold colors
 attrcolor b ".I"
 
-# use xterm
-term xterm
-
 # use terminal scrolling
 termcapinfo xterm* ti@:te@
 

@@ -10,6 +10,7 @@
 let s:vimrc_reload = 1          "auto-reload the vimrc
 let s:use_mappings = 1          "use my mappings
 let s:use_col_hilite = 0        "highlight columns after 80
+let s:use_wrap = 0              "don't wrap by default
 let s:use_spell_checking = 0    "spell checking for those who desire it
 let s:use_spooky_skeletons = 1  "create files from skeleton
 
@@ -31,12 +32,24 @@ Plugin 'Valloric/YouCompleteMe'             " YouCompleteMe
 Plugin 'Yggdroot/indentLine'                " Indent Lines
 Plugin 'rdnetto/YCM-Generator'              " YouCompleteMe config generator
 Plugin 'majutsushi/tagbar'                  " show tags in file
+Plugin 'kien/ctrlp.vim'                     " fuzzy file finder
+Plugin 'tpope/vim-fugitive'                 " git wrapper
 
 call vundle#end()
 
 if has("autocmd")
     filetype plugin indent on
 endif
+
+" +----------------------------------------------------------------------------+
+" | CTRL P SETTINGS                                                            |
+" +----------------------------------------------------------------------------+
+
+" Use nearest .git file as root
+let g:ctrlp_working_path_mode = 'r'
+
+" Ignore certain files
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 " +----------------------------------------------------------------------------+
 " | NERDTree SETTINGS                                                          |
@@ -49,13 +62,19 @@ let NERDTreeShowHidden = 1
 let g:NERDTreeWinSize = 60
 
 " start NERDTree automatically
-autocmd vimenter * NERDTree
+" autocmd vimenter * NERDTree
 
 " focus on the actual file instead of NERDTree
 autocmd vimenter * wincmd p
 
 " close NERDTree if it's the last man standing
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" disable buffer mappings in nerdtree
+autocmd FileType nerdtree nnoremap <buffer> <Leader>t <nop>
+autocmd FileType nerdtree nnoremap <buffer> <Leader>n <nop>
+autocmd FileType nerdtree nnoremap <buffer> <Leader>p <nop>
+autocmd FileType nerdtree nnoremap <buffer> <Leader>qq <nop>
 
 " open new window to the right of current window
 set splitright
@@ -72,7 +91,7 @@ let g:NERDSpaceDelims = 1
 " +----------------------------------------------------------------------------+
 
 " set indentLine color
-let g:indentLine_color_term = 237
+let g:indentLine_color_term = 243
 
 " Set indentLine character
 let g:indentLine_char = '┆'
@@ -188,7 +207,6 @@ set ruler
 set cmdheight=2
 
 " don't wrap lines
-set nowrap
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
@@ -269,6 +287,9 @@ set shiftwidth=4
 " determines how many columns a tab should be made up of
 set tabstop=4
 
+" determines how many columns backspace will delete
+set softtabstop=4
+
 " automatically indent based on last indent
 set autoindent
 
@@ -334,6 +355,10 @@ function! UseMappings(num)
 
         " quickly open Tagbar
         nnoremap <silent> <C-T> :TagbarToggle<CR>
+
+        nnoremap <silent> <F3> :YcmCompleter GoToDeclaration<CR>
+        nnoremap <silent> <F4> :YcmCompleter GoToDefinition<CR>
+        nnoremap <silent> <F5> :YcmCompleter GoToInclude<CR>
     endif
 endfunction
 
@@ -346,6 +371,17 @@ function! UseColHilite(num)
     else
         let &colorcolumn=join(range(81, 999), ',')
         highlight ColorColumn ctermbg=237
+    endif
+endfunction
+
+" +----------------------------------------------------------------------------+
+" | UseWrap: Wrap Text                                                         |
+" +----------------------------------------------------------------------------+
+function! UseWrap(num)
+    if a:num == 0
+        set nowrap
+    else
+        set wrap
     endif
 endfunction
 
@@ -395,6 +431,7 @@ endfunction
 " | Default Setup                                                              |
 " +----------------------------------------------------------------------------+
 execute "call UseColHilite(".s:use_col_hilite.")"
+execute "call UseWrap(".s:use_wrap.")"
 execute "call UseSpellChecking(".s:use_spell_checking.")"
 execute "call UseMappings(".s:use_mappings.")"
 execute "call UseSkeletons(".s:use_spooky_skeletons.")"
