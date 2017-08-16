@@ -42,6 +42,40 @@ if has("autocmd")
 endif
 
 " +----------------------------------------------------------------------------+
+" | TAGBAR SETTINGS                                                            |
+" +----------------------------------------------------------------------------+
+
+" open on the left hand side
+let g:tagbar_left = 1
+
+" tagbar window width
+let g:tagbar_width = 60
+
+" autofocus the tagbar when opened
+let g:tagbar_autofocus = 1
+
+" omit help, save space
+let g:tagbar_compact = 1
+
+" indent size
+let g:tagbar_indent = 1
+
+" show visibility (private/public/protected)
+let g:tagbar_show_visibility = 1
+
+" folds at a higher level are closed
+let g:tagbar_foldlevel = 2
+
+" fold symbols
+let g:tagbar_iconchars = ['+', '-']
+
+" disable buffer mappings in nerdtree
+autocmd FileType tagbar nnoremap <buffer> <Leader>t <nop>
+autocmd FileType tagbar nnoremap <buffer> <Leader>n <nop>
+autocmd FileType tagbar nnoremap <buffer> <Leader>p <nop>
+autocmd FileType tagbar nnoremap <buffer> <Leader>qq <nop>
+
+" +----------------------------------------------------------------------------+
 " | CTRL P SETTINGS                                                            |
 " +----------------------------------------------------------------------------+
 
@@ -159,6 +193,9 @@ let g:ycm_global_ycm_extra_conf ='/home/luna/dev/cpp/.ycm_extra_conf.py'
 " whitelist files in ~/dev/ only
 let g:ycm_extra_conf_globlist = ['~/dev/*','!~/*']
 
+" populate location list with diagnostic data, useful for jumping to error
+let g:ycm_always_populate_location_list = 1
+
 " +----------------------------------------------------------------------------+
 " | GENERAL VIM SETTINGS                                                       |
 " +----------------------------------------------------------------------------+
@@ -243,6 +280,15 @@ set tm=500
 
 " show information about current command
 set showcmd
+
+" use syntax based folding
+set foldmethod=indent
+
+" specify fold level
+set foldlevel=2
+
+" show most folds
+set foldlevelstart=5
 
 " +----------------------------------------------------------------------------+
 " | COLORS                                                                     |
@@ -359,6 +405,9 @@ function! UseMappings(num)
         nnoremap <silent> <F3> :YcmCompleter GoToDeclaration<CR>
         nnoremap <silent> <F4> :YcmCompleter GoToDefinition<CR>
         nnoremap <silent> <F5> :YcmCompleter GoToInclude<CR>
+
+        nnoremap <space> za
+        vnoremap <space> zf
     endif
 endfunction
 
