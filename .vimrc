@@ -13,6 +13,7 @@ let s:use_col_hilite = 0        "highlight columns after 80
 let s:use_wrap = 0              "don't wrap by default
 let s:use_spell_checking = 0    "spell checking for those who desire it
 let s:use_spooky_skeletons = 1  "create files from skeleton
+let s:use_arrow_keys = 0        "enable/disable arrow keys
 
 " +----------------------------------------------------------------------------+
 " | VUNDLE SETTINGS                                                            |
@@ -45,8 +46,11 @@ endif
 " | TAGBAR SETTINGS                                                            |
 " +----------------------------------------------------------------------------+
 
-" open on the left hand side
-let g:tagbar_left = 1
+" open on the right hand side
+let g:tagbar_left = 0
+
+" don't sort tags
+let g:tagbar_sort = 0
 
 " tagbar window width
 let g:tagbar_width = 60
@@ -69,7 +73,7 @@ let g:tagbar_foldlevel = 2
 " fold symbols
 let g:tagbar_iconchars = ['+', '-']
 
-" disable buffer mappings in nerdtree
+" disable buffer mappings in tagbar
 autocmd FileType tagbar nnoremap <buffer> <Leader>t <nop>
 autocmd FileType tagbar nnoremap <buffer> <Leader>n <nop>
 autocmd FileType tagbar nnoremap <buffer> <Leader>p <nop>
@@ -86,7 +90,7 @@ let g:ctrlp_working_path_mode = 'r'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 " +----------------------------------------------------------------------------+
-" | NERDTree SETTINGS                                                          |
+" | nerdtree SETTINGS                                                          |
 " +----------------------------------------------------------------------------+
 
 " Show hidden files
@@ -95,30 +99,21 @@ let NERDTreeShowHidden = 1
 " NERDTree window width
 let g:NERDTreeWinSize = 60
 
-" start NERDTree automatically
-" autocmd vimenter * NERDTree
-
-" focus on the actual file instead of NERDTree
-autocmd vimenter * wincmd p
-
-" close NERDTree if it's the last man standing
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 " disable buffer mappings in nerdtree
 autocmd FileType nerdtree nnoremap <buffer> <Leader>t <nop>
 autocmd FileType nerdtree nnoremap <buffer> <Leader>n <nop>
 autocmd FileType nerdtree nnoremap <buffer> <Leader>p <nop>
 autocmd FileType nerdtree nnoremap <buffer> <Leader>qq <nop>
 
-" open new window to the right of current window
-set splitright
-
 " +----------------------------------------------------------------------------+
-" | NERD Commenter SETTINGS                                                    |
+" | nerdcommenter SETTINGS                                                    |
 " +----------------------------------------------------------------------------+
 
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
+
+" Trim Whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
 
 " +----------------------------------------------------------------------------+
 " | Indent Line  SETTINGS                                                      |
@@ -133,7 +128,6 @@ let g:indentLine_char = '┆'
 " +----------------------------------------------------------------------------+
 " | Airline SETTINGS                                                           |
 " +----------------------------------------------------------------------------+
-set laststatus=2
 
 " airline theme
 let g:airline_theme='bubblegum'
@@ -141,41 +135,24 @@ let g:airline_theme='bubblegum'
 " populate the airline_symbols dictionary with proper font glyphs
 let g:airline_powerline_fonts = 1
 
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
+" if !exists('g:airline_symbols')
+    " let g:airline_symbols = {}
+" endif
 
-" unicode symbols (useful for fallback)
-"let g:airline_left_sep = '»'
-"let g:airline_left_sep = '▶'
-"let g:airline_right_sep = '«'
-"let g:airline_right_sep = '◀'
-"let g:airline_symbols.linenr = '␊'
-"let g:airline_symbols.linenr = '␤'
-"let g:airline_symbols.linenr = '¶'
-"let g:airline_symbols.branch = '⎇'
-"let g:airline_symbols.paste = 'ρ'
-"let g:airline_symbols.paste = 'Þ'
-"let g:airline_symbols.paste = '∥'
-"let g:airline_symbols.whitespace = 'Ξ'
-
-" airline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+" " airline symbols
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = ''
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
 
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-
-" close tab, remove buffer
-set hidden
 
 " +----------------------------------------------------------------------------+
 " | YouCompleteMe SETTINGS                                                     |
@@ -211,9 +188,6 @@ endif
 " enable line numbers
 set number
 
-" enable mouse
-set mouse=a
-
 " default use utf8
 set encoding=utf8
 
@@ -245,6 +219,8 @@ set cmdheight=2
 
 " don't wrap lines
 set backspace=eol,start,indent
+
+" arrow keys will move to prev/next line if needed
 set whichwrap+=<,>,h,l
 
 " ignore case during searching
@@ -255,6 +231,8 @@ set smartcase
 
 " highlight search matches
 set hlsearch
+
+" automatically navigate to first match
 set incsearch
 
 " find matching brackets
@@ -274,8 +252,10 @@ set wildignore=*.o,*~,*.pyc
 
 " remove error sounds
 set noerrorbells
+
+" disable visual bells and screen flashing
 set novisualbell
-set t_vb=
+
 set tm=500
 
 " show information about current command
@@ -284,11 +264,27 @@ set showcmd
 " use syntax based folding
 set foldmethod=indent
 
-" specify fold level
-set foldlevel=2
+" most folds open
+set foldlevel=10
 
-" show most folds
-set foldlevelstart=5
+" abandoned buffers are hidden
+set hidden
+
+" last window status line? (0: never, 1: only if 2+ windows, 2: always)
+set laststatus=2
+
+" open new window to the right of current window
+set splitright
+
+" +----------------------------------------------------------------------------+
+" | TERMINAL OPTIONS                                                           |
+" +----------------------------------------------------------------------------+
+
+" number of colors
+set t_Co=256
+
+" disable visual bell
+set t_vb=
 
 " +----------------------------------------------------------------------------+
 " | COLORS                                                                     |
@@ -307,9 +303,6 @@ colorscheme bubblegum-256-dark
 
 " color line numbers
 highlight LineNr ctermfg=white
-
-" if we have support for 256 colors, use it
-set t_Co=256
 
 " dont highlight current line
 set nocursorline
@@ -451,6 +444,39 @@ function! UseSpellChecking(num)
 endfunction
 
 " +----------------------------------------------------------------------------+
+" | UseArrowKeys: Enables Arrow Keys                                           |
+" +----------------------------------------------------------------------------+
+function! UseArrowKeys(num)
+    if a:num == 0
+        inoremap <up> <nop>
+        vnoremap <up> <nop>
+        nnoremap <up> <nop>
+        inoremap <down> <nop>
+        vnoremap <down> <nop>
+        nnoremap <down> <nop>
+        inoremap <left> <nop>
+        vnoremap <left> <nop>
+        nnoremap <left> <nop>
+        inoremap <right> <nop>
+        vnoremap <right> <nop>
+        nnoremap <right> <nop>
+    else
+        inoremap <up> <up>
+        vnoremap <up> <up>
+        nnoremap <up> <up>
+        inoremap <down> <down>
+        vnoremap <down> <down>
+        nnoremap <down> <down>
+        inoremap <left> <left>
+        vnoremap <left> <left>
+        nnoremap <left> <left>
+        inoremap <right> <right>
+        vnoremap <right> <right>
+        nnoremap <right> <right>
+    endif
+endfunction
+
+" +----------------------------------------------------------------------------+
 " | DeleteTrailingWS: Remove any trailing whitespace from file                 |
 " +----------------------------------------------------------------------------+
 function! DeleteTrailingWS()
@@ -466,6 +492,7 @@ autocmd BufWrite *.c        :call DeleteTrailingWS()
 autocmd BufWrite *.h        :call DeleteTrailingWS()
 autocmd BufWrite *.java     :call DeleteTrailingWS()
 autocmd BufWrite *.sql      :call DeleteTrailingWS()
+autocmd BufWrite *.txt      :call DeleteTrailingWS()
 
 " +----------------------------------------------------------------------------+
 " | Browser: Open URL in browser                                               |
@@ -484,3 +511,4 @@ execute "call UseWrap(".s:use_wrap.")"
 execute "call UseSpellChecking(".s:use_spell_checking.")"
 execute "call UseMappings(".s:use_mappings.")"
 execute "call UseSkeletons(".s:use_spooky_skeletons.")"
+execute "call UseArrowKeys(".s:use_arrow_keys.")"

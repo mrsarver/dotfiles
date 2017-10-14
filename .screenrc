@@ -25,17 +25,20 @@ hardstatus string "%{= km}[%{+b} %H %{-}][ %=%{w}%?%-Lw%?%{C}(%{W}%n*%f %t%?(%u)
 # SCREEN KEYBINDINGS                                                           #
 #==============================================================================#
 
-# region navigation
+# split
 bind s split
+
+# vertical split
+bind v split -v
+
+# vim-like navigation
 bind j focus down
 bind k focus up
-bind ',' prev
-bind '.' next
+bind h focus left
+bind l focus right
 
 # region resizing
 bind = resize =
-bind + resize +1
-bind - resize -1
 
 #==============================================================================#
 # TERMINAL SETTINGS                                                            #
@@ -56,5 +59,3 @@ termcapinfo xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 
 # startup screens
 screen -t terminal 0 bash
-screen -t vim 1 vim
-select 0
