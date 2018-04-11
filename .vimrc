@@ -35,6 +35,8 @@ Plugin 'rdnetto/YCM-Generator'              " YouCompleteMe config generator
 Plugin 'majutsushi/tagbar'                  " show tags in file
 Plugin 'kien/ctrlp.vim'                     " fuzzy file finder
 Plugin 'tpope/vim-fugitive'                 " git wrapper
+Plugin 'vim-scripts/dbext.vim'              " SQL completion
+Plugin 'dhruvasagar/vim-table-mode'         " pretty ASCII tables 
 
 call vundle#end()
 
@@ -185,8 +187,7 @@ if s:vimrc_reload == 1
     augroup END
 endif
 
-" enable line numbers
-set number
+set clipboard=unnamed
 
 " default use utf8
 set encoding=utf8
@@ -337,6 +338,22 @@ augroup TABBING
     autocmd FileType html setlocal expandtab shiftwidth=2 softtabstop=2
     autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 augroup END
+
+function! UseHybridNumbering()
+    set relativenumber number
+endfunction
+
+function! UseRelativeNumbering()
+    set relativenumber nonumber
+endfunction
+
+function! UseLineNumbering()
+    set norelativenumber number
+endfunction
+
+function! DisableLineNumbering()
+    set nonumber norelativenumber
+endfunction
 
 " +----------------------------------------------------------------------------+
 " | SKELETONS: When you create new file, automagically generate basic comments |
@@ -512,3 +529,4 @@ execute "call UseSpellChecking(".s:use_spell_checking.")"
 execute "call UseMappings(".s:use_mappings.")"
 execute "call UseSkeletons(".s:use_spooky_skeletons.")"
 execute "call UseArrowKeys(".s:use_arrow_keys.")"
+execute "call UseHybridNumbering()"
