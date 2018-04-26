@@ -1,27 +1,44 @@
-" +----------------------------------------------------------------------------+
-" | MAINTAINER:																   |
-" | 	M.R. Sarver															   |
-" | 	msarver2010@gmail.com												   |
-" +----------------------------------------------------------------------------+
+" @file:    vimrc
+" @author:  mrsarver
 
 " +----------------------------------------------------------------------------+
-" | VARIABLES																   |
+" | VARIABLES																                                   |
 " +----------------------------------------------------------------------------+
-let s:vimrc_reload = 1          "auto-reload the vimrc
-let s:use_mappings = 1          "use my mappings
-let s:use_col_hilite = 0        "highlight columns after 80
-let s:use_wrap = 0              "don't wrap by default
-let s:use_spell_checking = 0    "spell checking for those who desire it
-let s:use_spooky_skeletons = 1  "create files from skeleton
-let s:use_arrow_keys = 0        "enable/disable arrow keys
+
+" Automatically reloads ~/.vimrc when changes are made and saved
+let s:vimrc_reload = 1
+
+" Uses custom keymappings.  Set to 0 for default vim
+let s:use_mappings = 1
+
+" Applies a highlighting guideline at 80 characters
+let s:use_col_hilite = 1
+
+" Enables text wrapping
+let s:use_wrap = 0
+
+" Enables Spell Check
+let s:use_spell_checking = 0
+
+" Enables Skeleton Template files
+let s:use_spooky_skeletons = 1
+
+" Enables Arrow Key Navigation
+let s:use_arrow_keys = 1
+
+" Toggles automatic pairing of quotes, brackets, etc
+let s:auto_match_enabled = 1
 
 " +----------------------------------------------------------------------------+
 " | VUNDLE SETTINGS                                                            |
 " +----------------------------------------------------------------------------+
+
+" Disable Vi compatible editing
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
+" Add Vundle to runtime path
+set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'               " Vundle Plugin
@@ -36,7 +53,7 @@ Plugin 'majutsushi/tagbar'                  " show tags in file
 Plugin 'kien/ctrlp.vim'                     " fuzzy file finder
 Plugin 'tpope/vim-fugitive'                 " git wrapper
 Plugin 'vim-scripts/dbext.vim'              " SQL completion
-Plugin 'dhruvasagar/vim-table-mode'         " pretty ASCII tables 
+Plugin 'dhruvasagar/vim-table-mode'         " pretty ASCII tables
 
 call vundle#end()
 
@@ -50,6 +67,9 @@ endif
 
 " open on the right hand side
 let g:tagbar_left = 0
+
+" automatically close tagbar after selection
+let g:tagbar_autoclose = 1
 
 " don't sort tags
 let g:tagbar_sort = 0
@@ -137,18 +157,29 @@ let g:airline_theme='bubblegum'
 " populate the airline_symbols dictionary with proper font glyphs
 let g:airline_powerline_fonts = 1
 
-" if !exists('g:airline_symbols')
-    " let g:airline_symbols = {}
-" endif
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
 
-" " airline symbols
-" let g:airline_left_sep = ''
-" let g:airline_left_alt_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_right_alt_sep = ''
-" let g:airline_symbols.branch = ''
-" let g:airline_symbols.readonly = ''
-" let g:airline_symbols.linenr = ''
+" airline symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.maxlinenr = '㏑'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
 
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
@@ -170,7 +201,7 @@ set completeopt-=preview
 let g:ycm_global_ycm_extra_conf ='/home/luna/dev/cpp/.ycm_extra_conf.py'
 
 " whitelist files in ~/dev/ only
-let g:ycm_extra_conf_globlist = ['~/dev/*','!~/*']
+let g:ycm_extra_conf_globlist = ['~/src/*','!~/*']
 
 " populate location list with diagnostic data, useful for jumping to error
 let g:ycm_always_populate_location_list = 1
@@ -222,7 +253,7 @@ set cmdheight=2
 set backspace=eol,start,indent
 
 " arrow keys will move to prev/next line if needed
-set whichwrap+=<,>,h,l
+set whichwrap+=<,>
 
 " ignore case during searching
 set ignorecase
@@ -257,13 +288,14 @@ set noerrorbells
 " disable visual bells and screen flashing
 set novisualbell
 
-set tm=500
+" the time (in milliseconds) that is waited for a key sequence to complete
+set ttimeoutlen=500
 
 " show information about current command
 set showcmd
 
 " use syntax based folding
-set foldmethod=indent
+set foldmethod=syntax
 
 " most folds open
 set foldlevel=10
@@ -339,27 +371,52 @@ augroup TABBING
     autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 augroup END
 
+" @brief    Use tabbing requirements for work
+function! UseAZWorkTabbing()
+
+    " expand tabs into spaces (use CTRL-V<Tab> for real tab)
+    set expandtab
+
+    " number of spaces to use for each step of autoindent
+    set shiftwidth=2
+
+    " number of spaces that a <Tab> in the file counts for
+    set tabstop=2
+
+    " expand tabs into spaces
+    set softtabstop=2
+
+    " cindent is configuration, see cinoptions
+    set cindent
+
+    " cinoptions is how vim performs indentation
+    set cinoptions=>s,e0,n0,f0,{1s,t0,i0,(0,u0,)20,*70,#0,b0,l0
+
+endfunction
+
+" @brief    Current line number is absolute, other lines are relative
 function! UseHybridNumbering()
     set relativenumber number
 endfunction
 
+" @brief    Use relative line numbering for all lines, current line is line 0
 function! UseRelativeNumbering()
     set relativenumber nonumber
 endfunction
 
+" @brief    Use absolute line numbering for all lines
 function! UseLineNumbering()
     set norelativenumber number
 endfunction
 
+" @brief    Disables all line numbering
 function! DisableLineNumbering()
     set nonumber norelativenumber
 endfunction
 
-" +----------------------------------------------------------------------------+
-" | SKELETONS: When you create new file, automagically generate basic comments |
-" |                                                                            |
-" | thank mr skeltal                                                           |
-" +----------------------------------------------------------------------------+
+" @brief    When you create a new file of a specific type, automatically
+"           generate basic documentation for that file
+" @note     thank mr skeltal
 function! UseSkeletons(num)
     if has("autocmd") && s:use_spooky_skeletons == 1
         augroup Skeletons
@@ -375,21 +432,63 @@ function! UseSkeletons(num)
     endif
 endfunction
 
-" +----------------------------------------------------------------------------+
-" | UseMappings: Use My Special Mappings                                       |
-" +----------------------------------------------------------------------------+
+" @brief    Remaps the Parenthesis, Brackets, and Quotes keys in Insert Mode to
+"           automatically insert a matching closing character.  Closing
+"           characters will be skipped if there is a matching opening character.
+" @note     Requires vim 7.0+
+function! EnableAutoCloseBrackets()
+
+    " maps \" to automatically insert a matching \", moves cursor inside pair
+    inoremap " ""<left>
+
+    " skip closing \" if there is a matching opening \"
+    inoremap <expr> " strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
+
+    " maps \' to automatically insert a matching \', moves cursor inside pair
+    inoremap ' ''<left>
+
+    " skip closing \' if there is a matching opening \"
+    inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"
+
+    " maps ( to automatically insert a matching ), moves cursor inside pair
+    inoremap ( ()<left>
+
+    " skip closing ) if there is a matching opening (
+    inoremap <expr> ) strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+
+    " maps [ to automatically insert a matching ], moves cursor inside pair
+    inoremap [ []<left>
+
+    " skip closing ] if there is a matching opening [
+    inoremap <expr> ] strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
+
+    " maps { to automatically insert a matching }, moves cursor inside pair
+    inoremap { {}<left>
+
+    " skip closing } if there is a matching opening {
+    inoremap <expr> } strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
+
+    " inoremap {<BS> <nop>
+    " inoremap (<BS> <nop>
+    " inoremap [<BS> <nop>
+
+    inoremap {<CR> {<CR>}<ESC>O
+    inoremap {;<CR> {<CR>};<ESC>O
+endfunction
 
 " specify Leader as comma
 let mapleader = ","
 
+" @brief    Uses customized key bindings
 function! UseMappings(num)
     if a:num == 0
         "unset stuff here to default?
         echo a:num
     else
+
         nnoremap ; :
 
-        nnoremap <silent> <C-D> :NERDTreeToggle<CR>
+        nnoremap <silent> <Leader>d :NERDTreeToggle<CR>
 
         " Open a new empty 'tab'
         nnoremap <Leader>t :enew<CR>
@@ -410,7 +509,8 @@ function! UseMappings(num)
         nnoremap <silent> <Leader>brc :enew<CR>:e ~/.bashrc<CR>
 
         " quickly open Tagbar
-        nnoremap <silent> <C-T> :TagbarToggle<CR>
+        nnoremap <silent> <F8> :TagbarOpenAutoClose<CR>
+        nnoremap <silent> <F9> :TagbarClose<CR>
 
         nnoremap <silent> <F3> :YcmCompleter GoToDeclaration<CR>
         nnoremap <silent> <F4> :YcmCompleter GoToDefinition<CR>
@@ -421,9 +521,7 @@ function! UseMappings(num)
     endif
 endfunction
 
-" +----------------------------------------------------------------------------+
-" | UseColHilite: Highlight Columns 81+                                        |
-" +----------------------------------------------------------------------------+
+" @brief    Hilights columns 81+ with gre
 function! UseColHilite(num)
     if a:num == 0
         highlight clear ColorColumn
@@ -433,20 +531,17 @@ function! UseColHilite(num)
     endif
 endfunction
 
-" +----------------------------------------------------------------------------+
-" | UseWrap: Wrap Text                                                         |
-" +----------------------------------------------------------------------------+
+" @brief    Enables text wrap
 function! UseWrap(num)
     if a:num == 0
         set nowrap
+        set textwidth=0
     else
         set wrap
     endif
 endfunction
 
-" +----------------------------------------------------------------------------+
-" | UseSpellChecking: For those who can't English good                         |
-" +----------------------------------------------------------------------------+
+" @brief    Enables spell check
 function! UseSpellChecking(num)
     if a:num == 0
         set nospell
@@ -460,9 +555,9 @@ function! UseSpellChecking(num)
     endif
 endfunction
 
-" +----------------------------------------------------------------------------+
-" | UseArrowKeys: Enables Arrow Keys                                           |
-" +----------------------------------------------------------------------------+
+" @brief    Enables arrow keys as valid method of navigating a file
+" @detail   If !num, arrow keys become no-ops
+" @note     Useful as a training tool to get into the vim mindset
 function! UseArrowKeys(num)
     if a:num == 0
         inoremap <up> <nop>
@@ -493,9 +588,7 @@ function! UseArrowKeys(num)
     endif
 endfunction
 
-" +----------------------------------------------------------------------------+
-" | DeleteTrailingWS: Remove any trailing whitespace from file                 |
-" +----------------------------------------------------------------------------+
+" @brief    Detects and deletes trailing whitespace
 function! DeleteTrailingWS()
     exe "normal mz"
     %s/\s\+$//ge
@@ -511,18 +604,7 @@ autocmd BufWrite *.java     :call DeleteTrailingWS()
 autocmd BufWrite *.sql      :call DeleteTrailingWS()
 autocmd BufWrite *.txt      :call DeleteTrailingWS()
 
-" +----------------------------------------------------------------------------+
-" | Browser: Open URL in browser                                               |
-" +----------------------------------------------------------------------------+
-function! Browser ()
-    let line = getline (".")
-    let line = matchstr (line, "http[^   ]*")
-    "exec "!konqueror ".line
-endfunction
-
-" +----------------------------------------------------------------------------+
-" | Default Setup                                                              |
-" +----------------------------------------------------------------------------+
+" Initialize vim with personalized settings
 execute "call UseColHilite(".s:use_col_hilite.")"
 execute "call UseWrap(".s:use_wrap.")"
 execute "call UseSpellChecking(".s:use_spell_checking.")"
@@ -530,3 +612,5 @@ execute "call UseMappings(".s:use_mappings.")"
 execute "call UseSkeletons(".s:use_spooky_skeletons.")"
 execute "call UseArrowKeys(".s:use_arrow_keys.")"
 execute "call UseHybridNumbering()"
+execute "call UseAZWorkTabbing()"
+execute "call EnableAutoCloseBrackets()"
